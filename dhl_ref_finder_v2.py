@@ -134,8 +134,9 @@ def Thread_find_refInfos(ThreadName , begin_ , to_ ):
             r = requests.get("https://nolp.dhl.de/nextt-online-public/de/search?piececode=" + ConcatPre(i))
             paste_url = r.text
             key_1 = paste_url.find("Belgien")
+            key_2 = paste_url.find("Zustellung erfolgreich")
             # print key_1
-            if key_1 != -1:
+            if key_1 != -1 and key_2 ==-1:
                 file_thread.write(id + "\n")
 
         except Exception as e:
