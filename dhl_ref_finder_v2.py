@@ -57,7 +57,7 @@ def ThreadSetupScalable(interval_ref):
         pass
 
 
-def ThreadDispatcher(from_ , to_, ):
+def ThreadDispatcher(from_ , to_):
     interval = 0
     CoreNumber = 0
     print(interval)
@@ -116,7 +116,7 @@ def fct(code):
     s = str(b_val)
     return ("RR" + s + "DE")
 
-def IntuitiveConcat(Value):
+def ConcatPre(Value):
     return "RR" + str(Value) + "DE"
 
 
@@ -132,7 +132,7 @@ def Thread_find_refInfos(ThreadName , begin_ , to_ ):
         try:
             print(ThreadName +" actually process  url : "+fct(i))
             #urllib.request.urlretrieve(str(list_of_url[i]), "neg/"+str(pic_num)+".jpg")
-            r = requests.get("https://nolp.dhl.de/nextt-online-public/de/search?piececode=" + fct(i))
+            r = requests.get("https://nolp.dhl.de/nextt-online-public/de/search?piececode=" + ConcatPre(i))
             paste_url = r.text
             key_1 = paste_url.find("Belgien")
             # print key_1
@@ -144,4 +144,4 @@ def Thread_find_refInfos(ThreadName , begin_ , to_ ):
     print(ThreadName+ " Job finished .")
 #store_raw_images()
 #create_pos_n_neg()
-ThreadDispatcher(200,500)
+ThreadDispatcher(611460001,611560000)
