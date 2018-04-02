@@ -99,7 +99,7 @@ def ThreadDispatcher(from_ , to_):
         _thread.start_new_thread( Thread_find_refInfos, ("Thread-8", from_ +job*7 +8, from_ +job*8 +8) )
 
         ## special Thread  to refresh all Threads Informations of the console ....
-        _thread.start_new_thread( Thread_find_refInfos, ("Thread_InfosPrinter") )
+        #_thread.start_new_thread( Thread_find_refInfos, ("Thread_InfosPrinter") )
     except:
         print ("Error: unable to start Pool of thread")
 
@@ -123,14 +123,15 @@ def ConcatPre(Value):
 # define a function for the thread .
 def Thread_find_refInfos(ThreadName , begin_ , to_ ):
     print("Start Thread " + ThreadName)
-    print(t1_job)
-    time.sleep(3)
+    #print(t1_job)
+    #time.sleep(3)
     file_thread = open(ThreadName+"_Result.txt", "w")
-    pic_num = begin_
-    for  i in range(begin_ , to_+1):
+    #pic_num = begin_
+    start = timer()
+    for  i in range(begin_ , to_):
 
         try:
-            print(ThreadName +" actually process  url : "+ConcatPre(i))
+            #print(ThreadName +" actually process  url : "+ConcatPre(i))
             r = requests.get("https://nolp.dhl.de/nextt-online-public/de/search?piececode=" + ConcatPre(i))
             paste_url = r.text
             key_1 = paste_url.find("Belgien")
@@ -143,6 +144,8 @@ def Thread_find_refInfos(ThreadName , begin_ , to_ ):
             print(str(e))
     print(ThreadName+ " Job finished .")
     file_thread.close()
+    end = timer()
+    print(ThreadName+" needed " + str( end-start) + " Sek to make his job")
 #store_raw_images()
 #create_pos_n_neg()
-ThreadDispatcher(611460001,611560000)
+ThreadDispatcher(611460000,611460100)
