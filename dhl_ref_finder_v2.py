@@ -10,10 +10,6 @@ from timeit import default_timer as timer
 
 import sys
 
-
-def create_window():
-    window = tk.Toplevel(root)
-
 # init all global var ...
 
 try:
@@ -61,7 +57,7 @@ def ThreadSetupScalable(interval_ref):
         pass
 
 
-def ThreadSetup(from_ , to_, ):
+def ThreadDispatcher(from_ , to_, ):
     interval = 0
     CoreNumber = 0
     print(interval)
@@ -93,14 +89,14 @@ def ThreadSetup(from_ , to_, ):
     print(job)
 
     try:
-        _thread.start_new_thread( Thread_find_refInfos, ("Thread-1", 0, job) )
-        _thread.start_new_thread( Thread_find_refInfos, ("Thread-2", job+1, job*2 ) )
-        _thread.start_new_thread( Thread_find_refInfos, ("Thread-3", job*2 +1, job*3 ) )
-        _thread.start_new_thread( Thread_find_refInfos, ("Thread-4", job*3 +1, job*4) )
-        _thread.start_new_thread( Thread_find_refInfos, ("Thread-5", job*4 +1, job*5 ) )
-        _thread.start_new_thread( Thread_find_refInfos, ("Thread-6", job*5 +1, job*6) )
-        _thread.start_new_thread( Thread_find_refInfos, ("Thread-7", job*6 +1, job*7) )
-        _thread.start_new_thread( Thread_find_refInfos, ("Thread-8", job*7 +1, job*8) )
+        _thread.start_new_thread( Thread_find_refInfos, ("Thread-1", from_, from_ + job) )
+        _thread.start_new_thread( Thread_find_refInfos, ("Thread-2", from_+job + 1, from_ +job*2 +1 ) )
+        _thread.start_new_thread( Thread_find_refInfos, ("Thread-3", from_ +job*2 +2, from_ +job*3 +2 ) )
+        _thread.start_new_thread( Thread_find_refInfos, ("Thread-4", from_ +job*3 +4, from_ +job*4 +4) )
+        _thread.start_new_thread( Thread_find_refInfos, ("Thread-5", from_ +job*4 +5, from_ +job*5 +5) )
+        _thread.start_new_thread( Thread_find_refInfos, ("Thread-6", from_ +job*5 +6, from_ +job*6 +6) )
+        _thread.start_new_thread( Thread_find_refInfos, ("Thread-7", from_ +job*6 +7, from_ +job*7 +7) )
+        _thread.start_new_thread( Thread_find_refInfos, ("Thread-8", from_ +job*7 +8, from_ +job*8 +8) )
 
         ## special Thread  to refresh all Threads Informations of the console ....
         _thread.start_new_thread( Thread_find_refInfos, ("Thread_InfosPrinter") )
@@ -110,29 +106,42 @@ def ThreadSetup(from_ , to_, ):
     while(1):
         pass
 
-def InfosTreadJob(ThreadName):
-    print(ThreadName)
+def fct(code):
+    val = "000000000"
+    b_code = bytearray(code)
+    b_val = bytearray(val)
+    strSize = len(b_code)
+    for i in range(strSize):
+        b_val[8 - i] = b_code[strSize - 1 - i]
+    s = str(b_val)
+    return ("RR" + s + "DE")
+
+def IntuitiveConcat(Value):
+    return "RR" + str(Value) + "DE"
+
 
 # define a function for the thread .
-def Thread_find_refInfos(ThreadName , begin_ , to_):
+def Thread_find_refInfos(ThreadName , begin_ , to_ ):
     print("Start Thread " + ThreadName)
+    print(t1_job)
     time.sleep(3)
+    file_thread = open(ThreadName+"_Result.txt", "w")
     pic_num = begin_
     for  i in range(begin_ , to_+1):
 
         try:
-            print(ThreadName +" actually process  url : "+str(list_of_url[i]))
+            print(ThreadName +" actually process  url : "+fct(i))
             #urllib.request.urlretrieve(str(list_of_url[i]), "neg/"+str(pic_num)+".jpg")
-            r = requests.get("https://nolp.dhl.de/nextt-online-public/de/search?piececode=" + i)
-
+            r = requests.get("https://nolp.dhl.de/nextt-online-public/de/search?piececode=" + fct(i))
+            paste_url = r.text
+            key_1 = paste_url.find("Belgien")
+            # print key_1
+            if key_1 != -1:
+                file_thread.write(id + "\n")
 
         except Exception as e:
             print(str(e))
-
-
     print(ThreadName+ " Job finished .")
-
-
 #store_raw_images()
 #create_pos_n_neg()
-ThreadSetup(200,500)
+ThreadDispatcher(200,500)
