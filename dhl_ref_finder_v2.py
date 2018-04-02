@@ -130,8 +130,7 @@ def Thread_find_refInfos(ThreadName , begin_ , to_ ):
     for  i in range(begin_ , to_+1):
 
         try:
-            print(ThreadName +" actually process  url : "+fct(i))
-            #urllib.request.urlretrieve(str(list_of_url[i]), "neg/"+str(pic_num)+".jpg")
+            print(ThreadName +" actually process  url : "+ConcatPre(i))
             r = requests.get("https://nolp.dhl.de/nextt-online-public/de/search?piececode=" + ConcatPre(i))
             paste_url = r.text
             key_1 = paste_url.find("Belgien")
@@ -142,6 +141,7 @@ def Thread_find_refInfos(ThreadName , begin_ , to_ ):
         except Exception as e:
             print(str(e))
     print(ThreadName+ " Job finished .")
+    file_thread.close()
 #store_raw_images()
 #create_pos_n_neg()
 ThreadDispatcher(611460001,611560000)
