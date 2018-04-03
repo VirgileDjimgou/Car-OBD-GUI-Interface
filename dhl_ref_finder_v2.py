@@ -1,11 +1,11 @@
 #import urllib.request
-import numpy as np
+#import numpy as np
 import os
 import _thread
 import time
 import requests
 import multiprocessing
-import tkinter as tk
+#import tkinter as tk
 from timeit import default_timer as timer
 
 import sys
@@ -137,8 +137,9 @@ def Thread_find_refInfos(ThreadName , begin_ , to_ ):
             key_1 = paste_url.find("Belgien")
             key_2 = paste_url.find("Zustellung erfolgreich")
             # print key_1
-            if key_1 != -1 and key_2 ==-1:
-                file_thread.write(id + "\n")
+			if key_1 != -1 and key_2 ==-1:
+				print(id + "\n")
+				file_thread.write(id + "\n")
 
         except Exception as e:
             print(str(e))
@@ -148,4 +149,9 @@ def Thread_find_refInfos(ThreadName , begin_ , to_ ):
     print(ThreadName+" needed " + str( end-start) + " Sek to make his job")
 #store_raw_images()
 #create_pos_n_neg()
-ThreadDispatcher(611460000,611460100)
+t1=26
+t2=-1
+if t1 != -1 and t2 ==-1:
+	print("bingo")
+   #file_thread.write(id + "\n")
+ThreadDispatcher(611000000,612000000)
