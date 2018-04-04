@@ -168,7 +168,7 @@ def Thread_find_refInfos(ThreadName , begin_ , to_ ):
             key_1 = paste_url.find("Belgien")
             key_2 = paste_url.find("Zustellung erfolgreich")
             if key_1 != -1 and key_2 ==-1:
-            #if key_1 != -1 :
+            #if key_1 != -1 and key_2 !=-1:
                 print(ConcatPre(i) + "\n")
                 file_thread.write(ConcatPre(i)+ "\n")
                 positive_result = positive_result +1
@@ -182,5 +182,5 @@ def Thread_find_refInfos(ThreadName , begin_ , to_ ):
     #store_raw_images()
     #create_pos_n_neg()
     #file_thread.write(id + "\n")
-ThreadDispatcher(610482172,610482375)
+ThreadDispatcher(610482170,610482475)
 #progress(10, 100, "jui")
