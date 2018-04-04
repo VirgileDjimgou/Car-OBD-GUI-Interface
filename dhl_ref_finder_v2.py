@@ -5,6 +5,7 @@ import _thread
 import time
 import requests
 import multiprocessing
+from numpy import interp
 #import tkinter as tk
 from timeit import default_timer as timer
 
@@ -22,6 +23,9 @@ try:
     t6_job = t6_actual =0
     t7_job = t7_actual =0
     t8_job = t8_actual =0
+    Total_Job =0
+    fest_Job =0
+    positive_result = 0
 
 
 except Exception as e:
@@ -58,6 +62,8 @@ def ThreadSetupScalable(interval_ref):
 
 
 def ThreadDispatcher(from_ , to_):
+    global Total_Job
+    global fest_Job
     interval = 0
     CoreNumber = 0
     print(interval)
@@ -72,6 +78,8 @@ def ThreadDispatcher(from_ , to_):
 
     if(from_ < to_ ):
         interval = to_ - from_
+        Total_Job = interval
+        fest_Job = interval
     else:
         print ("you must enter a correct value .....the interval that you entered is not correct !")
         ###  stop the programm ...
@@ -89,6 +97,7 @@ def ThreadDispatcher(from_ , to_):
     print(job)
 
     try:
+
         _thread.start_new_thread( Thread_find_refInfos, ("Thread-1", from_, from_ + job) )
         _thread.start_new_thread( Thread_find_refInfos, ("Thread-2", from_+job + 1, from_ +job*2 +1 ) )
         _thread.start_new_thread( Thread_find_refInfos, ("Thread-3", from_ +job*2 +2, from_ +job*3 +2 ) )
@@ -99,12 +108,31 @@ def ThreadDispatcher(from_ , to_):
         _thread.start_new_thread( Thread_find_refInfos, ("Thread-8", from_ +job*7 +8, from_ +job*8 +8) )
 
         ## special Thread  to refresh all Threads Informations of the console ....
-        #_thread.start_new_thread( Thread_find_refInfos, ("Thread_InfosPrinter") )
-    except:
-        print ("Error: unable to start Pool of thread")
+        _thread.start_new_thread(Infos_console, ("Thread_InfosPrinter" , 10) )
+
+    except Exception as e:
+            print(str(e))
 
     while(1):
         pass
+
+
+def Infos_console(count, suffix='' ):
+    global  Total_Job , fest_Job
+    print("Total Job is  :"+str(Total_Job))
+    while(1):
+        time.sleep(0.2)
+        #bar_len = 60
+        #filled_len = int(round(bar_len * Total_Job / float(fest_Job)))
+        #percents = round(100.0 * Total_Job / float(fest_Job), 1)
+        #bar = '=' * filled_len + '-' * (bar_len - filled_len)
+        #sys.stdout.write("\r%d of %d" % (read, num_lines))
+        if(Total_Job < 20):
+            print("Total Job finished ....")
+            break
+        sys.stdout.write(""+"\rJob Progression : %f%% # Positive_Result = %d " % (interp(fest_Job-Total_Job,[1,fest_Job],[0,100]),positive_result))
+        #sys.stdout.write('[%s] %s%s ...%s\r' % (bar, percents, '%', suffix))
+        sys.stdout.flush()
 
 def fct(code):
     val = "000000000"
@@ -122,6 +150,9 @@ def ConcatPre(Value):
 
 # define a function for the thread .
 def Thread_find_refInfos(ThreadName , begin_ , to_ ):
+    # create global variable ...
+    global  Total_Job
+    global  positive_result
     print("Start Thread " + ThreadName)
     #print(t1_job)
     #time.sleep(3)
@@ -136,22 +167,20 @@ def Thread_find_refInfos(ThreadName , begin_ , to_ ):
             paste_url = r.text
             key_1 = paste_url.find("Belgien")
             key_2 = paste_url.find("Zustellung erfolgreich")
-            # print key_1
-			if key_1 != -1 and key_2 ==-1:
-				print(id + "\n")
-				file_thread.write(id + "\n")
-
+            if key_1 != -1 and key_2 ==-1:
+            #if key_1 != -1 :
+                print(ConcatPre(i) + "\n")
+                file_thread.write(ConcatPre(i)+ "\n")
+                positive_result = positive_result +1
+            Total_Job = Total_Job -1
         except Exception as e:
             print(str(e))
     print(ThreadName+ " Job finished .")
     file_thread.close()
     end = timer()
     print(ThreadName+" needed " + str( end-start) + " Sek to make his job")
-#store_raw_images()
-#create_pos_n_neg()
-t1=26
-t2=-1
-if t1 != -1 and t2 ==-1:
-	print("bingo")
-   #file_thread.write(id + "\n")
-ThreadDispatcher(611000000,612000000)
+    #store_raw_images()
+    #create_pos_n_neg()
+    #file_thread.write(id + "\n")
+ThreadDispatcher(610482172,610482375)
+#progress(10, 100, "jui")
