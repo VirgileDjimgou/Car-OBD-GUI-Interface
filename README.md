@@ -1,7 +1,9 @@
-# RPi OBD dashboard (+ reverse camera display)
+# On-Board-Diagnose Dashboard(OBD) with Raspberry Pi 4.
 
 ![picture of display mounted on car](obd_display.jpg)
 (yes there are too many decimal places on the engine load, I've fixed this in the code)
+
+![Alt text](IMG20230720152937-1.jpg)
 
 ## Hardware
 - Raspberry Pi with Bluetooth & Wi-Fi (inbuilt or USB dongle, doesn't matter)
@@ -55,6 +57,4 @@ The Pi gets power from a USB socket on the CD player meant for flash disks (it a
     - if the scripts complain about missing modules when running with sudo, uncomment the `sys.path.append` lines at the top of `gui.py` and `piface.py` (edit as necessary depending on your Python version, you can run `pip3 show obd` to see where your package is installed). This is a quick fix solution, there are cleaner ways if you edit sudoers, etc.
 
 ## Modifying the GUI
-The GUI uses the PySimpleGUI library (just about the fastest & easiest way to get a working GUI running). You can adjust the font, refresh rate etc easily by modifying the constants and/or the `layout` array.
-
-Contributions are welcome, I made the GUI in a rush and focused mainly on functionality. 
+The GUI uses the PySimpleGUI library . You can adjust the font, refresh rate etc easily by modifying the constants and/or the `layout` array.
