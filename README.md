@@ -1,18 +1,16 @@
 # On-Board-Diagnose Dashboard(OBD) with Raspberry Pi 4.
 
 ![picture of display mounted on car](obd_display.jpg)
-(yes there are too many decimal places on the engine load, I've fixed this in the code)
 
 ![Alt text](IMG20230720152937-1.jpg)
 
 ## Hardware
 - Raspberry Pi with Bluetooth & Wi-Fi (inbuilt or USB dongle, doesn't matter)
-- OBD2 Bluetooth module (buy from eBay, Aliexpress, etc. <$10)
+- OBD2 Bluetooth module (Veepeak-OBDCheck VP11)
 - [PiFace Digital](http://www.piface.org.uk/products/piface_digital/) to switch video input & detect button presses. I had this lying around, otherwise you can use any kind of relay board and wire your own buttons to GPIO. 
 - Reversing camera / dash cam with video output
 - Display with composite video input
 
-note: [composite video](https://en.wikipedia.org/wiki/Composite_video) is used so I can easily switch outputs with a relay, quality isn't too bad on a small display.
 
 ### Wiring
 Relays: NC (normally closed, i.e. connected by default when Pi is off), CO (common), NO (normally open)
@@ -33,7 +31,7 @@ The Pi gets power from a USB socket on the CD player meant for flash disks (it a
 - On the Pi, in a terminal, run:
     - `sudo apt update && sudo apt upgrade`
     - `pip3 install obd PySimpleGUI keyboard`
-    - `git clone https://github.com/trishmapow/obd-gui`
+    - `git clone https://github.com/VirgileDjimgou/Car-OBD-GUI-Interface.git`
 - To connect to the module, run:
     - `bluetoothctl` to enter bluetoothctl shell
     - `scan on` and `scan off` once you see your module
@@ -45,7 +43,7 @@ The Pi gets power from a USB socket on the CD player meant for flash disks (it a
     - `sudo rfcomm connect hci0 [MAC]` you should see 'press ctrl+c for hangup'
 - Now to see if you can interface with the module:
     - `cd` into `obd-gui`
-    - `python3 gui.py`, if you see the numbers and graph updating, great! Otherwise alt-tab to switch to the terminal and see the errors (or exit the app using alt+f4). I had to make some patches to get my module working, you can find them [here](https://github.com/trishmapow/python-OBD/commit/ccd3e5c71032fd30717b83d5f93613ace153dbf4). Check the [troubleshooting guide](https://python-obd.readthedocs.io/en/latest/Troubleshooting/) and [issues in the repo](https://github.com/brendan-w/python-OBD/issues). You may have to dig into the pythonOBD source in `~/.local/lib/python3.7/site-packages/obd`
+    - `python3 gui.py`, if you see the numbers and graph updating, great! Otherwise Check the [troubleshooting guide](https://python-obd.readthedocs.io/en/latest/Troubleshooting/) and [issues in the repo](https://github.com/brendan-w/python-OBD/issues). You may have to dig into the pythonOBD source in `~/.local/lib/python3.7/site-packages/obd`
 - PiFace config steps:
     - unfortunately the apt and pip packages for the piface don't seem to exist anymore, so we have to install manually. `git clone` both [pifacecommon](https://github.com/piface/pifacecommon) and [pifacedigital-io](https://github.com/piface/pifacedigitalio), `cd` into the directories and run `sudo python3 setup.py install` for both modules
     - enable SPI in `sudo raspi-config`, under 'interfacing' (iirc)
