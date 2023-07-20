@@ -26,11 +26,15 @@ I only had one 12V socket available at the front of the car, and the dashcam was
 
 The Pi gets power from a USB socket on the CD player meant for flash disks (it apparently provides adequate current, use a USB voltage/current meter to check you're still getting 5+/-0.25V if you're trying such tricks). 
 
+
 ## Software setup
 - Connect module to car
 - On the Pi, in a terminal, run:
     - `sudo apt update && sudo apt upgrade`
-    - `pip3 install obd PySimpleGUI keyboard`
+    - `sudo apt install python3 python3-pip`
+    - `sudo apt install python3-tk`
+    - `sudo pip3 install python-can`
+    - `sudo pip3 install obd PySimpleGUI keyboard`
     - `git clone https://github.com/VirgileDjimgou/Car-OBD-GUI-Interface.git`
 - To connect to the module, run:
     - `bluetoothctl` to enter bluetoothctl shell
@@ -54,5 +58,10 @@ The Pi gets power from a USB socket on the CD player meant for flash disks (it a
     - add your module's MAC address in `connect.sh`
     - if the scripts complain about missing modules when running with sudo, uncomment the `sys.path.append` lines at the top of `gui.py` and `piface.py` (edit as necessary depending on your Python version, you can run `pip3 show obd` to see where your package is installed). This is a quick fix solution, there are cleaner ways if you edit sudoers, etc.
 
+    # test with ECU Emulator 
+    - `cd ecu-simulator`
+    - `puthon3 ecu-simulator.py`
+
+
 ## Modifying the GUI
-The GUI uses the PySimpleGUI library . You can adjust the font, refresh rate etc easily by modifying the constants and/or the `layout` array.
+The GUI uses the PySimpleGUI Tkinter library . You can adjust the font, refresh rate etc easily by modifying the constants and/or the `layout` array.

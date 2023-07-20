@@ -1,5 +1,4 @@
 import sys
-# Ugly hack because script launches using sudo, pythonpath is broken
 # sys.path.append("/home/pi/.local/lib/python3.7/site-packages/")
 
 import pifacedigitalio as p
