@@ -1,4 +1,4 @@
-# On-Board-Diagnose Dashboard(OBD) with Raspberry Pi 4.
+# OnBoard-Diagnose Dashboard(OBD) with Raspberry Pi4.
 
 ![picture of display mounted on car](obd_display.jpg)
 
